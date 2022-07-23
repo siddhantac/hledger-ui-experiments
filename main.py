@@ -2,6 +2,13 @@ import csv
 import subprocess
 from transaction import Transaction
 
+import ledger
+acc = ledger.queryHledgerForAccountListWithBalance("")
+print(acc)
+for a in acc:
+    print(a)
+
+
 # result=subprocess.run(
 #         ["hledger", "reg", "-p", "2022/01/01 to 2022/01/03", "-O", "csv"],
 #         check=True,
@@ -20,20 +27,20 @@ transactions = {}
 #     print(items)
 #     print(tx)
 
-with open('data.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        tx = Transaction(
-                txnid=row[0], 
-                date=row[1],
-                desc=row[3],
-                account=row[4],
-                amount=row[5],
-                )
-        tx2 = transactions.get(tx.txnid, None)
-        if tx2 is None:
-            transactions[tx.txnid] = tx
-        else:
-            tx2.account2 = row[4]
-        # print(tx2)
-        print(' '.join(row))
+# with open('data.csv') as csvfile:
+#     reader = csv.reader(csvfile)
+#     for row in reader:
+#         tx = Transaction(
+#                 txnid=row[0], 
+#                 date=row[1],
+#                 desc=row[3],
+#                 account=row[4],
+#                 amount=row[5],
+#                 )
+#         tx2 = transactions.get(tx.txnid, None)
+#         if tx2 is None:
+#             transactions[tx.txnid] = tx
+#         else:
+#             tx2.account2 = row[4]
+#         # print(tx2)
+#         print(' '.join(row))
