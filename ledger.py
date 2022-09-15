@@ -720,6 +720,12 @@ def parseJournal(jreader):
     return journal
 
 ### query hledger for accounts
+def queryHledgerForAccountListTree(ledgerpath, depth=None, args=[]):
+    stdout = subprocess.Popen(['hledger'] + ([] if ledgerpath is None or not os.path.exists(ledgerpath) else ['-f', ledgerpath])  + ["accounts","--ignore-assertions", "-t"] + ([] if depth is None or not isinstance(depth,int) else ["--depth",str(depth)] + args),stdout=subprocess.PIPE).communicate()[0]
+    ## python asumes subprocess.PIPE i.e. stdout is ascii encoded
+    return list(filter(len,codecs.decode(stdout,"utf-8").split(u"\n")))
+
+### query hledger for accounts
 def queryHledgerForAccountList(ledgerpath, depth=None, args=[]):
     stdout = subprocess.Popen(['hledger'] + ([] if ledgerpath is None or not os.path.exists(ledgerpath) else ['-f', ledgerpath])  + ["accounts","--ignore-assertions"] + ([] if depth is None or not isinstance(depth,int) else ["--depth",str(depth)] + args),stdout=subprocess.PIPE).communicate()[0]
     ## python asumes subprocess.PIPE i.e. stdout is ascii encoded
